@@ -75,6 +75,9 @@ function encodeLength(length: number) {
  * @returns The buffer
  */
 function encodeBufferAsInteger(buffer: Buffer) {
+  if (buffer[0] > 127) {
+    buffer = Buffer.concat([Buffer.from([0]), buffer]); // integer must be signed, add leading 0 if MSB is 1
+  }
   return Buffer.concat([
     encodeIdentifier({
       class: Asn1Class.Universal,
@@ -85,6 +88,8 @@ function encodeBufferAsInteger(buffer: Buffer) {
     buffer,
   ]);
 }
+
+
 
 /**
  * Encode an object identifier (a string such as "1.2.840.113549.1.1.1") per ASN.1 spec (DER-encoding)
