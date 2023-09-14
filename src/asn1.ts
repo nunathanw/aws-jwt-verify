@@ -76,7 +76,7 @@ function encodeLength(length: number) {
  */
 function encodeBufferAsInteger(buffer: Buffer) {
   if (buffer[0] > 127) {
-    buffer = Buffer.concat([Buffer.from([0]), buffer]); // integer must be signed, add leading 0 if MSB is 1
+    buffer = Buffer.concat([Buffer.from([0]), buffer]); // integer must be signed; add leading 0 if MSB is 1 to ensure the number is not negative 
   }
   return Buffer.concat([
     encodeIdentifier({
